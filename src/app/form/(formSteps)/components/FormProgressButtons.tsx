@@ -9,22 +9,24 @@ const FormProgressButtons: React.FC = () => {
   return (
     <>
       <div className="margin-top-4 display-flex flex-column flex-align-end">
-        <ButtonGroup type="default">
-          {formProgressPosition.previous !== null && (
-            <Link
-              key="previous"
-              href={formatFormProgressUrl(formProgressPosition.previous)}
-              className="usa-button usa-button--outline margin-top-0"
-            >
-              Previous
-            </Link>
-          )}
-          {formProgressPosition.next !== null && (
-            <Button key="next" type="submit" className="margin-top-0">
-              Next
-            </Button>
-          )}
-        </ButtonGroup>
+        <div className="right-align">
+          <ButtonGroup type="default">
+            {formProgressPosition.previous !== null && (
+              <Link
+                key="previous"
+                href={formatFormProgressUrl(formProgressPosition.previous)}
+                className="usa-button usa-button--outline margin-top-0"
+              >
+                Previous
+              </Link>
+            )}
+            {formProgressPosition.next !== null && (
+              <Button key="next" type="submit" className="margin-top-0">
+                Next
+              </Button>
+            )}
+          </ButtonGroup>
+        </div>
       </div>
     </>
   );

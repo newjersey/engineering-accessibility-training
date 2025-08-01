@@ -36,9 +36,9 @@ const DisclosuresStep: React.FC = () => {
 
   return (
     <div>
-      <Form onSubmit={handleSubmit(onSubmit)} className="maxw-full">
+      <Form onSubmit={handleSubmit(onSubmit)} className="maxw-full form-container">
         <div className="maxw-tablet">
-          <h2 className="font-heading-md">Lunch information</h2>
+          <h3 className="font-heading-md">Lunch information</h3>
           <Fieldset legend="Have you had lunch today?" legendStyle="default">
             <Radio id="hadLunchYes" label="Yes" value="true" {...register("hadLunch")} />
             <Radio id="hadLunchNo" label="No" value="false" {...register("hadLunch")} />

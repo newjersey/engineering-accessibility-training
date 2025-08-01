@@ -19,7 +19,7 @@ const FormStep: React.FC = () => {
         onSubmit={handleSubmit(() => {
           routeToNextStep(router, formProgressPosition);
         })}
-        className="maxw-full"
+        className="maxw-full form-container"
       >
         <FormProgressButtons />
       </Form>

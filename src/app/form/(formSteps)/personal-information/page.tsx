@@ -83,7 +83,12 @@ const PersonalInformationStep: React.FC = () => {
   return (
     <div>
       {dataHasLoaded && (
-        <Form onSubmit={handleSubmit(onSubmit, onError)} className="maxw-full" noValidate>
+        <Form
+          onSubmit={handleSubmit(onSubmit, onError)}
+          className="maxw-full form-container"
+          noValidate
+        >
+          <FormProgressButtons />
           <div className="maxw-tablet">
             <div tabIndex={-1} ref={errorSummaryRef}>
               {shouldSummarizeErrors && Object.keys(errors).length >= 1 && (
@@ -92,9 +97,9 @@ const PersonalInformationStep: React.FC = () => {
                   aria-labelledby="error-summary-heading"
                 >
                   <div className="usa-alert__body">
-                    <h2 className="usa-alert__heading" id="error-summary-heading">
+                    <h3 className="usa-alert__heading" id="error-summary-heading">
                       There is a problem
-                    </h2>
+                    </h3>
 
                     <ul className="usa-list usa-list--unstyled">
                       {Object.entries(errors).map(([field, error]) => {
@@ -287,7 +292,6 @@ const PersonalInformationStep: React.FC = () => {
               )}
             </Fieldset>
           </div>
-          <FormProgressButtons />
         </Form>
       )}
     </div>
