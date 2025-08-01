@@ -4,17 +4,15 @@
 
 ## Accessibility
 
-- [ ] I have checked this with the [WAVE extension](https://wave.webaim.org/extension/).
-- [ ] I have tested with a screenreader, and all information available to a sighted user is
-      equivalently available to a screenreader user
-  - [ ] All visual information associated with a form field (labels, descriptions, errors) is
-        programmatically associated with that field
-  - [ ] Keyboard-tabbing/screenreader traversal order makes sense
-  - [ ] Headings do not skip levels, and the heading structure is an appropriate content summary of
-        the page
-  - [ ] All user actions trigger screen reader feedback that enables users to understand what is
-        going on
-- [ ] All actions a sighted user can perform can be performed by a screenreader user
+- [ ] I have checked this with the [WAVE extension](https://wave.webaim.org/extension/)
+- [ ] I have tested with a screenreader
+  - [ ] All actions can be performed by a screenreader user
+  - [ ] All information available to a sighted user is equivalently available via the screenreader
+    - [ ] Headings do not skip levels, and are a good "content summary" of the page
+    - [ ] Keyboard-tabbing/screenreader traversal order makes sense
+    - [ ] All visual information associated with a form field (labels, descriptions, errors) is
+          programmatically associated with that field
+    - [ ] Any user actions trigger screenreader feedback to inform what is happening
 
 ## How should a reviewer test?
 
