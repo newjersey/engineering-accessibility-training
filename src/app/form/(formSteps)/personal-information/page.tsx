@@ -1,163 +1,295 @@
 "use client";
 
+import FormProgressButtons from "@form/(formSteps)/components/FormProgressButtons";
+import { routeToNextStep, useFormProgressPosition } from "@form/_utils/formProgressRouting";
 import {
-  DatePicker,
+  DateInputGroup,
   Fieldset,
   Form,
+  FormGroup,
   Label,
+  Select,
   TextInput,
-  TextInputMask,
 } from "@trussworks/react-uswds";
-import React, { useEffect, useState } from "react";
-import { formatDateOfBirthDefaultValue as formatAppointmentDateDefaultValue } from "../../_utils/inputFields/dateOfBirth";
-import { getValue, setKeyValue } from "../../_utils/sessionStorage";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useRef, useState } from "react";
+import { type SubmitErrorHandler, type SubmitHandler, useForm } from "react-hook-form";
 
-interface PersonalInformationData {
+export interface PersonalInformationData {
   firstName: string | null;
   middleName: string | null;
   lastName: string | null;
-  appointmentDate: string | null;
-  phoneNumber: string | null;
+  dateOfBirthMonth: string | null;
+  dateOfBirthDay: string | null;
+  dateOfBirthYear: string | null;
 }
 
-const MM_DD_YYYY = /(\d{1,2})\/(\d{1,2})\/(\d{4})/;
-
-const dateIsValid = (date: string): boolean => {
-  const found = date.match(MM_DD_YYYY);
-  return !!found;
+const orderedInputNameToLabel: { [key in keyof PersonalInformationData]: string } = {
+  firstName: "First name",
+  middleName: "Middle name",
+  lastName: "Last name",
+  dateOfBirthMonth: "Month",
+  dateOfBirthDay: "Day",
+  dateOfBirthYear: "Year",
 };
 
 const PersonalInformationStep: React.FC = () => {
+  const router = useRouter();
+  const formProgressPosition = useFormProgressPosition();
   const [dataHasLoaded, setDataHasLoaded] = useState<boolean>(false);
-  const [personalInformationData, setPersonalInformationData] = useState<PersonalInformationData>({
-    firstName: null,
-    middleName: null,
-    lastName: null,
-    appointmentDate: null,
-    phoneNumber: null,
+  const [shouldSummarizeErrors, setShouldSummarizeErrors] = useState(false);
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    setFocus,
+  } = useForm<PersonalInformationData>({
+    defaultValues: {
+      firstName: "",
+      middleName: "",
+      lastName: "",
+      dateOfBirthMonth: "",
+      dateOfBirthDay: "",
+      dateOfBirthYear: "",
+    },
+    shouldFocusError: false,
   });
+  const errorSummaryRef = useRef<HTMLInputElement>(null);
+
+  const onSubmit: SubmitHandler<PersonalInformationData> = () => {
+    routeToNextStep(router, formProgressPosition);
+  };
+  const onError: SubmitErrorHandler<PersonalInformationData> = (errors) => {
+    if (Object.keys(errors).length >= 3) {
+      setShouldSummarizeErrors(true);
+      errorSummaryRef.current?.focus();
+    } else {
+      setShouldSummarizeErrors(false);
+      for (const inputName of Object.keys(orderedInputNameToLabel) as Array<
+        keyof PersonalInformationData
+      >) {
+        if (errors[inputName] !== undefined) {
+          setFocus(inputName);
+          break;
+        }
+      }
+    }
+  };
 
   useEffect(() => {
-    const storedState = getValue("state");
-    if (!storedState) {
-      setKeyValue("state", "NJ");
-    }
-    setPersonalInformationData({
-      firstName: getValue("firstName"),
-      middleName: getValue("middleName"),
-      lastName: getValue("lastName"),
-      appointmentDate: getValue("dateOfBirth"),
-      phoneNumber: getValue("phoneNumber"),
-    });
     setDataHasLoaded(true);
   }, []);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    handleValueChange(name, value);
-  };
-
-  const handleValueChange = (name: string, value: string | undefined) => {
-    if (value === undefined) value = "";
-    setPersonalInformationData((prev) => ({ ...prev, [name]: value }));
-    setKeyValue(name, value);
-  };
   return (
     <div>
       {dataHasLoaded && (
-        <Form
-          onSubmit={() => {
-            throw new Error("Not implemented for now");
-          }}
-        >
-          <Fieldset legend="Name" legendStyle="srOnly">
-            <Label htmlFor="firstName">First name</Label>
-            <TextInput
-              id="firstName"
-              name="firstName"
-              type="text"
-              required
-              value={personalInformationData.firstName || ""}
-              onChange={handleChange}
-            />
+        <Form onSubmit={handleSubmit(onSubmit, onError)} className="maxw-full" noValidate>
+          <div className="maxw-tablet">
+            <div tabIndex={-1} ref={errorSummaryRef}>
+              {shouldSummarizeErrors && Object.keys(errors).length >= 1 && (
+                <div
+                  className="usa-alert usa-alert--error margin-bottom-3 border-05 border-top-105 border-secondary-dark"
+                  aria-labelledby="error-summary-heading"
+                >
+                  <div className="usa-alert__body">
+                    <h2 className="usa-alert__heading" id="error-summary-heading">
+                      There is a problem
+                    </h2>
 
-            <Label
-              // htmlFor="middleName"
-              htmlFor="midddleName"
-              hint=" (optional)"
-            >
-              Middle name
-            </Label>
-            <TextInput
-              id="middleName"
-              name="middleName"
-              type="text"
-              value={personalInformationData.middleName || ""}
-              onChange={handleChange}
-            />
+                    <ul className="usa-list usa-list--unstyled">
+                      {Object.entries(errors).map(([field, error]) => {
+                        return (
+                          <li key={field}>
+                            <a
+                              href={`#${field}`}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                setFocus(field as keyof PersonalInformationData);
+                              }}
+                            >
+                              {error.message}
+                            </a>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                </div>
+              )}
+            </div>
+            <h2 className="font-heading-md">Personal identification</h2>
+            <Fieldset legend="Name" legendStyle="srOnly" className="grid-row grid-gap">
+              <div className="tablet:grid-col-4">
+                <Label htmlFor="firstName" requiredMarker>
+                  {orderedInputNameToLabel["firstName"]}
+                </Label>
+                <TextInput
+                  id="firstName"
+                  type="text"
+                  required
+                  validationStatus={errors.firstName ? "error" : undefined}
+                  aria-invalid={errors.firstName ? "true" : "false"}
+                  aria-describedby={errors.firstName && "firstNameErrorMessage"}
+                  {...register("firstName", {
+                    required: `${orderedInputNameToLabel["firstName"]} is required`,
+                  })}
+                />
+                {errors.firstName && (
+                  <span id="firstNameErrorMessage" className="usa-error-message">
+                    {errors.firstName.message}
+                  </span>
+                )}
+              </div>
+              <div className="tablet:grid-col-4">
+                <Label htmlFor="middleName">{orderedInputNameToLabel["middleName"]}</Label>
+                <TextInput id="midleName" type="text" {...register("middleName")} />
+              </div>
+              <div className="tablet:grid-col-4">
+                <Label htmlFor="lastName" requiredMarker>
+                  {orderedInputNameToLabel["lastName"]}
+                </Label>
+                <TextInput
+                  id="lastName"
+                  type="text"
+                  required
+                  validationStatus={errors.lastName ? "error" : undefined}
+                  aria-invalid={errors.lastName ? "true" : "false"}
+                  aria-describedby={errors.lastName && "lastNameErrorMessage"}
+                  {...register("lastName", {
+                    required: `${orderedInputNameToLabel["lastName"]} is required`,
+                  })}
+                />
+                {errors.lastName && (
+                  <span id="lastNameErrorMessage" className="usa-error-message">
+                    {errors.lastName.message}
+                  </span>
+                )}
+              </div>
+            </Fieldset>
 
-            <Label htmlFor="lastName">Last name</Label>
-            <TextInput
-              id="lastName"
-              name="lastName"
-              type="text"
-              required
-              value={personalInformationData.lastName || ""}
-              onChange={handleChange}
-            />
-          </Fieldset>
-
-          <hr />
-
-          <Label id="appointmentDateLabel" htmlFor="appointmentDate">
-            Appointment date
-          </Label>
-          <div
-            className="usa-hint"
-            // id="appointmentDateHint"
-          >
-            mm/dd/yyyy
+            <Fieldset legend="Date of birth" requiredMarker>
+              <span className="usa-hint" id="dateOfBirthHint">
+                For example: April 28 1986
+              </span>
+              <DateInputGroup aria-describedby="dateOfBirthHint">
+                <FormGroup className="usa-form-group--month usa-form-group--select">
+                  <Label htmlFor="dateOfBirthMonth" requiredMarker>
+                    {orderedInputNameToLabel["dateOfBirthMonth"]}
+                  </Label>
+                  <Select
+                    id="dateOfBirthMonth"
+                    required
+                    validationStatus={errors.dateOfBirthMonth ? "error" : undefined}
+                    aria-invalid={errors.dateOfBirthMonth ? "true" : "false"}
+                    aria-describedby={errors.dateOfBirthMonth && "dateOfBirthMonthErrorMessage"}
+                    {...register("dateOfBirthMonth", {
+                      required: `${orderedInputNameToLabel["dateOfBirthMonth"]} is required`,
+                    })}
+                  >
+                    <option value="1">01 - January</option>
+                    <option value="2">02 - February</option>
+                    <option value="3">03 - March</option>
+                    <option value="4">04 - April</option>
+                    <option value="5">05 - May</option>
+                    <option value="6">06 - June</option>
+                    <option value="7">07 - July</option>
+                    <option value="8">08 - August</option>
+                    <option value="9">09 - September</option>
+                    <option value="10">10 - October</option>
+                    <option value="11">11 - November</option>
+                    <option value="12">12 - December</option>
+                  </Select>
+                </FormGroup>
+                <FormGroup className="usa-form-group--day">
+                  <Label htmlFor={"dateOfBirthDay"} requiredMarker>
+                    {orderedInputNameToLabel["dateOfBirthDay"]}
+                  </Label>
+                  <TextInput
+                    id={"dateOfBirthDay"}
+                    type="text"
+                    pattern="[0-9]*"
+                    inputMode="numeric"
+                    maxLength={2}
+                    minLength={2}
+                    required
+                    validationStatus={errors.dateOfBirthDay ? "error" : undefined}
+                    aria-invalid={errors.dateOfBirthDay ? "true" : "false"}
+                    aria-describedby={errors.dateOfBirthDay && "dateOfBirthDayErrorMessage"}
+                    {...register("dateOfBirthDay", {
+                      required: `${orderedInputNameToLabel["dateOfBirthDay"]} is required`,
+                      valueAsNumber: true,
+                      min: {
+                        value: 1,
+                        message: `${orderedInputNameToLabel["dateOfBirthDay"]} must be between 1 and 31`,
+                      },
+                      max: {
+                        value: 31,
+                        message: `${orderedInputNameToLabel["dateOfBirthDay"]} must be between 1 and 31`,
+                      },
+                      validate: (value) => {
+                        if (value === null) {
+                          return `${orderedInputNameToLabel["dateOfBirthDay"]} is required`;
+                        }
+                        if (Number.isNaN(value) || typeof value === "string") {
+                          return `${orderedInputNameToLabel["dateOfBirthDay"]} must be a number`;
+                        }
+                        return true;
+                      },
+                    })}
+                  />
+                </FormGroup>
+                <FormGroup className="usa-form-group--year">
+                  <Label htmlFor="dateOfBirthYear" requiredMarker>
+                    {orderedInputNameToLabel["dateOfBirthYear"]}
+                  </Label>
+                  <TextInput
+                    id="dateOfBirthYear"
+                    type="text"
+                    maxLength={4}
+                    minLength={4}
+                    pattern="[0-9]*"
+                    inputMode="numeric"
+                    required
+                    validationStatus={errors.dateOfBirthYear ? "error" : undefined}
+                    aria-invalid={errors.dateOfBirthYear ? "true" : "false"}
+                    aria-describedby={errors.dateOfBirthYear && "dateOfBirthYearErrorMessage"}
+                    {...register("dateOfBirthYear", {
+                      required: `${orderedInputNameToLabel["dateOfBirthYear"]} is required`,
+                      valueAsNumber: true,
+                      validate: (value) => {
+                        if (value === null) {
+                          return `${orderedInputNameToLabel["dateOfBirthYear"]} is required`;
+                        }
+                        if (Number.isNaN(value) || typeof value === "string") {
+                          return `${orderedInputNameToLabel["dateOfBirthYear"]} must be a number`;
+                        }
+                        if ((value as number).toString().length !== 4) {
+                          return `${orderedInputNameToLabel["dateOfBirthYear"]} must have four digits`;
+                        }
+                        return true;
+                      },
+                    })}
+                  />
+                </FormGroup>
+              </DateInputGroup>
+              {errors.dateOfBirthMonth && (
+                <div id="dateOfBirthMonthErrorMessage" className="usa-error-message">
+                  {errors.dateOfBirthMonth.message}
+                </div>
+              )}
+              {errors.dateOfBirthDay && (
+                <div id="dateOfBirthDayErrorMessage" className="usa-error-message">
+                  {errors.dateOfBirthDay.message}
+                </div>
+              )}
+              {errors.dateOfBirthYear && (
+                <div id="dateOfBirthYearErrorMessage" className="usa-error-message">
+                  {errors.dateOfBirthYear.message}
+                </div>
+              )}
+            </Fieldset>
           </div>
-          <DatePicker
-            id="appointmentDate"
-            name="appointmentDate"
-            // aria-describedby="appointmentDateHint"
-            aria-labelledby="appointmentDateLabel"
-            /**
-            The DatePicker component is a little weird, vs the other input components in the library
-            1. Unlike other input components, it lacks a value prop for the parent to control its value. See https://github.com/trussworks/react-uswds/issues/3000
-            2. Unlike other input components, the onChange fires with a string value, instead of a change event
-            3. The change string value has the format MM/DD/YYYY, but the defaultValue prop needs to be in the format YYYY-MM-DD
-           */
-            key={dataHasLoaded.toString()}
-            defaultValue={
-              personalInformationData.appointmentDate
-                ? formatAppointmentDateDefaultValue(
-                    new Date(personalInformationData.appointmentDate),
-                  )
-                : undefined
-            }
-            onChange={(value) => {
-              if (value === undefined || !dateIsValid(value)) {
-                handleValueChange("appointmentDate", "");
-                return;
-              }
-              handleValueChange("appointmentDate", value);
-            }}
-          />
-
-          <Label htmlFor="phoneNumber">Phone number</Label>
-          <TextInputMask
-            id="phoneNumber"
-            name="phoneNumber"
-            type="tel"
-            inputMode="text"
-            mask="___-___-____"
-            pattern="\d{3}-\d{3}-\d{4}"
-            required
-            value={personalInformationData.phoneNumber || ""}
-            onChange={handleChange}
-          />
+          <FormProgressButtons />
         </Form>
       )}
     </div>

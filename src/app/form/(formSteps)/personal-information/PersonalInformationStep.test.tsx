@@ -1,5 +1,7 @@
+import { RouterPathnameProvider } from "@/app/form/_utils/testUtils";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import PersonalInformationStep from "./page";
 
 describe("<PersonalInformationStep />", () => {
@@ -7,22 +9,37 @@ describe("<PersonalInformationStep />", () => {
     window.sessionStorage.clear();
   });
 
+  const renderWithRouter = () => {
+    const mockPush = jest.fn();
+    const mockRefresh = jest.fn();
+    const mockRouter: Partial<AppRouterInstance> = {
+      push: mockPush,
+      refresh: mockRefresh,
+    };
+    render(
+      <RouterPathnameProvider
+        pathname="/form/personal-information"
+        router={mockRouter as AppRouterInstance}
+      >
+        <PersonalInformationStep />
+      </RouterPathnameProvider>,
+    );
+    return mockRouter;
+  };
+
   it.each([
-    { name: "First name", key: "firstName", testValue: "Test first name" },
-    { name: "Middle name (optional)", key: "middleName", testValue: "Test middle name" },
-    { name: "Last name", key: "lastName", testValue: "Test last name" },
-    { name: "Date of birth", key: "dateOfBirth", testValue: "01/01/1990" },
-  ])("updates the $name text input", async ({ name, key, testValue }) => {
+    { name: "First name *", testValue: "Test first name" },
+    { name: "Middle name", testValue: "Test middle name" },
+    { name: "Last name *", testValue: "Test last name" },
+  ])("updates the $name text input", async ({ name, testValue }) => {
     const user = userEvent.setup();
-    render(<PersonalInformationStep />);
+    renderWithRouter();
     const inputField = screen.getByRole("textbox", {
       name: name,
     });
-    expect(window.sessionStorage.getItem(key)).toEqual(null);
 
     await user.type(inputField, testValue);
 
     expect(inputField).toHaveValue(testValue);
-    expect(window.sessionStorage.getItem(key)).toEqual(testValue);
   });
 });

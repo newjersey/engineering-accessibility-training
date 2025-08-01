@@ -1,66 +1,61 @@
 "use client";
 
+import { setKeyValue } from "@/app/form/_utils/sessionStorage";
+import FormProgressButtons from "@form/(formSteps)/components/FormProgressButtons";
+import { routeToNextStep, useFormProgressPosition } from "@form/_utils/formProgressRouting";
 import { Fieldset, Form, Radio } from "@trussworks/react-uswds";
-import React, { useState } from "react";
-import { setKeyValue } from "../../_utils/sessionStorage";
+import { useRouter } from "next/navigation";
+import React from "react";
+import { type SubmitHandler, useForm } from "react-hook-form";
+
+interface DisclosuresData {
+  hadLunch: "true" | "false" | "";
+  lunchWasTasty: "true" | "false" | "";
+}
 
 const DisclosuresStep: React.FC = () => {
-  const [hadLunch, setHadLunch] = useState<boolean | null>(null);
-  const [lunchWasTasty, setLunchWasTasty] = useState<boolean | null>(null);
+  const router = useRouter();
+  const formProgressPosition = useFormProgressPosition();
+  const { register, handleSubmit, watch } = useForm<DisclosuresData>({
+    defaultValues: {
+      hadLunch: "",
+      lunchWasTasty: "",
+    },
+  });
+  const hadLunch = watch("hadLunch");
+  const lunchWasTasty = watch("lunchWasTasty");
+
+  const onSubmit: SubmitHandler<DisclosuresData> = (data) => {
+    let key: keyof DisclosuresData;
+    for (key in data) {
+      const value = data[key] ?? "";
+      setKeyValue(key, value);
+    }
+    routeToNextStep(router, formProgressPosition);
+  };
+
   return (
     <div>
-      <Form
-        onSubmit={() => {
-          throw new Error("Not implemented for now");
-        }}
-      >
-        <Fieldset legend="Have you had lunch today?" legendStyle="default">
-          <Radio
-            id="hadLunchYes"
-            name="hadLunch"
-            label="Yes"
-            onChange={() => {
-              setKeyValue("hadLunch", "true");
-              setHadLunch(true);
-            }}
-          />
-          <Radio
-            id="hadLunchNo"
-            name="hadLunch"
-            label="No"
-            onChange={() => {
-              setKeyValue("hadLunch", "false");
-              setHadLunch(false);
-            }}
-          />
-        </Fieldset>
-        {hadLunch === true && (
-          <div className="padding-y-4">
-            <Fieldset legend="Was your lunch tasty?" legendStyle="default">
-              <Radio
-                id="lunchYes"
-                name="lunchWasTasty"
-                label="Yes"
-                onChange={() => {
-                  setKeyValue("lunchWasTasty", "true");
-                  setLunchWasTasty(true);
-                }}
-              />
-              <Radio
-                id="lunchNo"
-                name="lunchWasTasty"
-                label="No"
-                onChange={() => {
-                  setKeyValue("lunchWasTasty", "false");
-                  setLunchWasTasty(false);
-                }}
-              />
-            </Fieldset>
-            {lunchWasTasty !== null && (
-              <div className="padding-y-4">{lunchWasTasty ? "Yay!" : "Boo"}</div>
-            )}
-          </div>
-        )}
+      <Form onSubmit={handleSubmit(onSubmit)} className="maxw-full">
+        <div className="maxw-tablet">
+          <h2 className="font-heading-md">Lunch information</h2>
+          <Fieldset legend="Have you had lunch today?" legendStyle="default">
+            <Radio id="hadLunchYes" label="Yes" value="true" {...register("hadLunch")} />
+            <Radio id="hadLunchNo" label="No" value="false" {...register("hadLunch")} />
+          </Fieldset>
+          {hadLunch === "true" && (
+            <div className="padding-y-4">
+              <Fieldset legend="Was your lunch tasty?" legendStyle="default">
+                <Radio id="lunchYes" label="Yes" value="true" {...register("lunchWasTasty")} />
+                <Radio id="lunchNo" label="No" value="false" {...register("lunchWasTasty")} />
+              </Fieldset>
+              {lunchWasTasty !== "" && (
+                <div className="padding-y-4">{lunchWasTasty === "true" ? "Yay!" : "Boo"}</div>
+              )}
+            </div>
+          )}
+        </div>
+        <FormProgressButtons />
       </Form>
     </div>
   );

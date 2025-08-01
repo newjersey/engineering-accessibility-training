@@ -1,14 +1,11 @@
+import "@/app/globals.css";
 import "@newjersey/njwds/dist/css/styles.css";
 import njStateSeal from "@newjersey/njwds/dist/img/nj_state_seal.png";
 import type { Metadata } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import "./globals.css";
 
-export const metadata: Metadata = {
-  title: "NJ Form Filler",
-  description: "Prototype",
-};
+export const metadata: Metadata = { title: "NJ Form Filler", description: "Prototype" };
 
 export default function RootLayout({
   children,
