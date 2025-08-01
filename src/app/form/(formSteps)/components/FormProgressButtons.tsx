@@ -8,7 +8,7 @@ const FormProgressButtons: React.FC = () => {
 
   return (
     <>
-      <div className="margin-top-4 display-flex flex-column flex-align-end">
+      <div className="display-flex flex-column flex-align-end">
         <div className="right-align">
           <ButtonGroup type="default">
             {formProgressPosition.previous !== null && (

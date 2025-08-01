@@ -72,7 +72,7 @@ export const FormLayout = (props: { children?: React.ReactNode; pathname: string
         </div>
       </div>
       <hr className="width-full" />
-      <div className="margin-top-5 margin-bottom-5">{props.children}</div>
+      <div className="margin-bottom-5">{props.children}</div>
     </>
   );
 };

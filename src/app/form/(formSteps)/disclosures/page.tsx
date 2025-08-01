@@ -38,14 +38,30 @@ const DisclosuresStep: React.FC = () => {
     <div>
       <Form onSubmit={handleSubmit(onSubmit)} className="maxw-full form-container">
         <div className="maxw-tablet">
-          <h3 className="font-heading-md">Lunch information</h3>
-          <Fieldset legend="Have you had lunch today?" legendStyle="default">
-            <Radio id="hadLunchYes" label="Yes" value="true" {...register("hadLunch")} />
-            <Radio id="hadLunchNo" label="No" value="false" {...register("hadLunch")} />
+          <FormProgressButtons />
+          <h2 className="font-heading-md">Lunch information</h2>
+          <p>Have you had lunch today?</p>
+          <Fieldset legend={<p className="font-ui-xs">Select one</p>} legendStyle="default">
+            <Radio
+              id="hadLunchYes"
+              data-testid="hadLunchYes"
+              label="Yes"
+              value="true"
+              {...register("hadLunch")}
+            />
+            <Radio
+              id="hadLunchNo"
+              data-testid="hadLunchNo"
+              label="No"
+              value="false"
+              {...register("hadLunch")}
+            />
           </Fieldset>
+
           {hadLunch === "true" && (
             <div className="padding-y-4">
-              <Fieldset legend="Was your lunch tasty?" legendStyle="default">
+              <p>Was your lunch tasty?</p>
+              <Fieldset legend={<p className="font-ui-xs">Select one</p>} legendStyle="default">
                 <Radio id="lunchYes" label="Yes" value="true" {...register("lunchWasTasty")} />
                 <Radio id="lunchNo" label="No" value="false" {...register("lunchWasTasty")} />
               </Fieldset>
@@ -55,7 +71,6 @@ const DisclosuresStep: React.FC = () => {
             </div>
           )}
         </div>
-        <FormProgressButtons />
       </Form>
     </div>
   );
