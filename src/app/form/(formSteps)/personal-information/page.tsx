@@ -168,10 +168,8 @@ const PersonalInformationStep: React.FC = () => {
             </Fieldset>
 
             <Fieldset legend="Date of birth" requiredMarker>
-              <span className="usa-hint" id="dateOfBirthHint">
-                For example: April 28 1986
-              </span>
-              <DateInputGroup aria-describedby="dateOfBirthHint">
+              <span className="usa-hint">For example: April 28 1986</span>
+              <DateInputGroup>
                 <FormGroup className="usa-form-group--month usa-form-group--select">
                   <Label htmlFor="dateOfBirthMonth" requiredMarker>
                     {orderedInputNameToLabel["dateOfBirthMonth"]}
