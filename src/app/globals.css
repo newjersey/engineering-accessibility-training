@@ -6,6 +6,7 @@ svg[role="img"].nj-banner__mail-icon {
 img.nj-banner__header-seal {
   box-sizing: unset;
 }
+
 /* 
     If you're not reading the full thing, this is technically a copy-paste from a top stackoverflow answer!
     https://stackoverflow.com/questions/311990/how-do-i-get-a-div-to-float-to-the-bottom-of-its-container#answer-312008
@@ -16,6 +17,15 @@ img.nj-banner__header-seal {
   margin-bottom: 15px;
   right: 40px;
 }
+
 .form-container {
   position: relative;
+}
+
+abbr[title] {
+  text-decoration: none;
+}
+
+.usa-form .usa-button.margin-top-0 {
+  margin-top: 0;
 }
