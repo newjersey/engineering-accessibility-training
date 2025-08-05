@@ -130,6 +130,7 @@ const PersonalInformationStep: React.FC = () => {
                 </Label>
                 <TextInput
                   id="firstName"
+                  data-testid="firstName"
                   type="text"
                   required
                   validationStatus={errors.firstName ? "error" : undefined}
@@ -146,8 +147,13 @@ const PersonalInformationStep: React.FC = () => {
                 )}
               </div>
               <div className="tablet:grid-col-4">
-                <Label htmlFor="middleName">{orderedInputNameToLabel["middleName"]}</Label>
-                <TextInput id="midleName" type="text" {...register("middleName")} />
+                <Label htmlFor="midleName">{orderedInputNameToLabel["middleName"]}</Label>
+                <TextInput
+                  id="middleName"
+                  data-testid="middleName"
+                  type="text"
+                  {...register("middleName")}
+                />
               </div>
               <div className="tablet:grid-col-4">
                 <Label htmlFor="lastName" requiredMarker>
@@ -155,6 +161,7 @@ const PersonalInformationStep: React.FC = () => {
                 </Label>
                 <TextInput
                   id="lastName"
+                  data-testid="lastName"
                   type="text"
                   required
                   validationStatus={errors.lastName ? "error" : undefined}
