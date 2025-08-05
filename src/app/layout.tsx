@@ -21,7 +21,10 @@ export default function RootLayout({
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
       </Head>
       <body>
-        <header aria-label="Official government website">
+        <a className="usa-skipnav" href="#main-content">
+          Skip to main content
+        </a>
+        <section className="usa-banner site-banner" aria-label="Official government website">
           <div className="nj-banner">
             <div className="nj-banner__header">
               <div className="grid-container">
@@ -60,12 +63,13 @@ export default function RootLayout({
               </div>
             </div>
           </div>
-          <MenuBar />
-        </header>
-
-        <div className="usa-section">
-          <div className="grid-container">{children}</div>
-        </div>
+        </section>
+        <MenuBar />
+        <main id="main-content">
+          <div className="usa-section">
+            <div className="grid-container">{children}</div>
+          </div>
+        </main>
       </body>
     </html>
   );
