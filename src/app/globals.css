@@ -22,3 +22,7 @@ abbr[title] {
     grid-template-columns: 2fr 1fr;
   }
 }
+
+#input::placeholder {
+  color: inherit;
+}
