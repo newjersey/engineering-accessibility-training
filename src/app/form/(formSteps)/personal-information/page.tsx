@@ -208,7 +208,6 @@ const PersonalInformationStep: React.FC = () => {
                       required
                       validationStatus={errors.dateOfBirthMonth ? "error" : undefined}
                       aria-invalid={errors.dateOfBirthMonth ? "true" : "false"}
-                      aria-describedby={errors.dateOfBirthMonth && "dateOfBirthMonthErrorMessage"}
                       {...register("dateOfBirthMonth", {
                         required: `${orderedInputNameToLabel["dateOfBirthMonth"]} is required`,
                       })}
@@ -240,8 +239,6 @@ const PersonalInformationStep: React.FC = () => {
                       minLength={2}
                       required
                       validationStatus={errors.dateOfBirthDay ? "error" : undefined}
-                      aria-invalid={errors.dateOfBirthDay ? "true" : "false"}
-                      aria-describedby={errors.dateOfBirthDay && "dateOfBirthDayErrorMessage"}
                       {...register("dateOfBirthDay", {
                         required: `${orderedInputNameToLabel["dateOfBirthDay"]} is required`,
                         valueAsNumber: true,
@@ -278,7 +275,6 @@ const PersonalInformationStep: React.FC = () => {
                       inputMode="numeric"
                       required
                       validationStatus={errors.dateOfBirthYear ? "error" : undefined}
-                      aria-invalid={errors.dateOfBirthYear ? "true" : "false"}
                       aria-describedby={errors.dateOfBirthYear && "dateOfBirthYearErrorMessage"}
                       {...register("dateOfBirthYear", {
                         required: `${orderedInputNameToLabel["dateOfBirthYear"]} is required`,
