@@ -181,7 +181,6 @@ const PersonalInformationStep: React.FC = () => {
                     id="lastName"
                     data-testid="lastName"
                     type="text"
-                    required
                     validationStatus={errors.lastName ? "error" : undefined}
                     aria-invalid={errors.lastName ? "true" : "false"}
                     aria-describedby={errors.lastName && "lastNameErrorMessage"}
