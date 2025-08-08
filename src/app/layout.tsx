@@ -21,7 +21,7 @@ export default function RootLayout({
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
       </Head>
       <body>
-        <header aria-label="Official government website">
+        <div aria-label="Official government website">
           <div className="nj-banner">
             <div className="nj-banner__header">
               <div className="grid-container">
@@ -61,7 +61,7 @@ export default function RootLayout({
             </div>
           </div>
           <MenuBar />
-        </header>
+        </div>
 
         <div className="usa-section">
           <div className="grid-container">{children}</div>
