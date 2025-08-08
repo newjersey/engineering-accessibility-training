@@ -21,7 +21,14 @@ const FormStep: React.FC = () => {
         })}
         className="maxw-full form-container"
       >
-        <FormProgressButtons />
+        <div className="maxw-tablet">
+          <FormProgressButtons />
+          <h6 className="font-heading-md">You filled out a form!</h6>
+          <label htmlFor="input">Reviewing form contents is for mortals.</label>
+          <p>
+            <input id="input" placeholder="Click submit, you coward!" disabled className="font-body text-ink" style={{ padding: 0, margin: 0, width: '100%', outline: 'none', border: 'none'}}/>
+          </p>
+        </div>
       </Form>
     </div>
   );
