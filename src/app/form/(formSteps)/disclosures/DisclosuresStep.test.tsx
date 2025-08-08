@@ -29,6 +29,6 @@ describe("<DisclosuresStep />", () => {
     expect(screen.queryByText("Was your breakfast tasty?")).not.toBeInTheDocument();
 
     await user.click(screen.getByTestId("hadBreakfastYes"));
-    expect(screen.queryByText("Was your breakfast tasty?")).toBeInTheDocument();
+    expect(screen.getByText("Was your breakfast tasty?")).toBeInTheDocument();
   });
 });
