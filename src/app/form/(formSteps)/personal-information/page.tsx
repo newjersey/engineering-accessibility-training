@@ -166,9 +166,12 @@ const PersonalInformationStep: React.FC = () => {
                   )}
                 </div>
                 <div className="tablet:grid-col-4">
-                  <Label htmlFor="midleName">{orderedInputNameToLabel["middleName"]}</Label>
+                  <div id="middleName" className="margin-top-3">
+                    {orderedInputNameToLabel["middleName"]}
+                  </div>
                   <TextInput
                     id="middleName"
+                    aria-labelledby="middleName"
                     data-testid="middleName"
                     type="text"
                     {...register("middleName")}
@@ -228,7 +231,7 @@ const PersonalInformationStep: React.FC = () => {
                     </Select>
                   </FormGroup>
                   <FormGroup className="usa-form-group--day">
-                    <Label htmlFor={"dateOfBirthDay"} requiredMarker>
+                    <Label htmlFor={"dateOfBrthDay"} requiredMarker>
                       {orderedInputNameToLabel["dateOfBirthDay"]}
                     </Label>
                     <TextInput
