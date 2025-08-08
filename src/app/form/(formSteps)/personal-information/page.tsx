@@ -25,6 +25,7 @@ export interface PersonalInformationData {
   dateOfBirthMonth: string | null;
   dateOfBirthDay: string | null;
   dateOfBirthYear: string | null;
+  anythingElse: string | null;
 }
 
 const orderedInputNameToLabel: { [key in keyof PersonalInformationData]: string } = {
@@ -35,6 +36,7 @@ const orderedInputNameToLabel: { [key in keyof PersonalInformationData]: string 
   dateOfBirthMonth: "Month",
   dateOfBirthDay: "Day",
   dateOfBirthYear: "Year",
+  anythingElse: "Is there anything else you would like to share about yourself?",
 };
 
 const PersonalInformationStep: React.FC = () => {
@@ -134,7 +136,7 @@ const PersonalInformationStep: React.FC = () => {
                 id="juiceShopRelationship"
                 rows={2}
                 aria-describedby="juiceShopRelationshipHint"
-                {...register("juiceShopRelationship", {})}
+                {...register("juiceShopRelationship")}
               />
               {errors.juiceShopRelationship && (
                 <span id="juiceShopRelationshipErrorMessage" className="usa-error-message">
@@ -319,6 +321,8 @@ const PersonalInformationStep: React.FC = () => {
                   </div>
                 )}
               </Fieldset>
+              <Label htmlFor="anythingElse">{orderedInputNameToLabel["anythingElse"]}</Label>
+              <Textarea id="anythingElse" rows={2} {...register("anythingElse")} />
             </div>
           </div>
           <FormProgressButtons />
