@@ -7,25 +7,18 @@ img.nj-banner__header-seal {
   box-sizing: unset;
 }
 
-/* 
-    If you're not reading the full thing, this is technically a copy-paste from a top stackoverflow answer!
-    https://stackoverflow.com/questions/311990/how-do-i-get-a-div-to-float-to-the-bottom-of-its-container#answer-312008
-*/
-.right-align {
-  position: absolute;
-  bottom: -95px;
-  margin-bottom: 15px;
-  right: 40px;
-}
-
-.form-container {
-  position: relative;
-}
-
 abbr[title] {
   text-decoration: none;
 }
 
 .usa-form .usa-button.margin-top-0 {
   margin-top: 0;
+}
+
+@media (min-width: 1024px) {
+  .form-grid {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: 2fr 1fr;
+  }
 }
