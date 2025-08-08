@@ -126,15 +126,16 @@ const PersonalInformationStep: React.FC = () => {
                 )}
               </div>
               <h2 className="font-heading-md">Personal relationships</h2>
-              <Label htmlFor="juiceShopRelationship">
+              <div id="juiceShopRelationship" className="margin-top-3">
                 {orderedInputNameToLabel["juiceShopRelationship"]}
-              </Label>
+              </div>
               <span className="usa-hint" id="juiceShopRelationshipHint">
                 Describe your personal relationship with the juice shop.
               </span>
               <Textarea
                 id="juiceShopRelationship"
                 rows={2}
+                aria-label="Juice shop"
                 aria-describedby="juiceShopRelationshipHint"
                 {...register("juiceShopRelationship")}
               />
@@ -311,8 +312,13 @@ const PersonalInformationStep: React.FC = () => {
                   </div>
                 )}
               </Fieldset>
-              <Label htmlFor="anythingElse">{orderedInputNameToLabel["anythingElse"]}</Label>
-              <Textarea id="anythingElse" rows={2} {...register("anythingElse")} />
+              <div className="margin-top-3">{orderedInputNameToLabel["anythingElse"]}</div>
+              <Textarea
+                id="anythingElse"
+                rows={2}
+                aria-label="anythingElse"
+                {...register("anythingElse")}
+              />
             </div>
             <div className="flex-1">
               <JuiceShopExplainer />
