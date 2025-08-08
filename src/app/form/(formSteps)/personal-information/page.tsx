@@ -179,7 +179,7 @@ const PersonalInformationStep: React.FC = () => {
               </div>
             </Fieldset>
 
-            <Fieldset legend="Date of birth" requiredMarker>
+            <Fieldset legend="Date of birth" className="margin-top-3" requiredMarker>
               <span className="usa-hint">For example: April 28 1986</span>
               <DateInputGroup>
                 <FormGroup className="usa-form-group--month usa-form-group--select">
