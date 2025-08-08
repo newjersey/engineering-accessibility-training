@@ -9,8 +9,8 @@ import React from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
 
 interface DisclosuresData {
-  hadLunch: "true" | "false" | "";
-  lunchWasTasty: "true" | "false" | "";
+  hadBreakfast: "true" | "false" | "";
+  breakfastWasTasty: "true" | "false" | "";
 }
 
 const DisclosuresStep: React.FC = () => {
@@ -18,12 +18,12 @@ const DisclosuresStep: React.FC = () => {
   const formProgressPosition = useFormProgressPosition();
   const { register, handleSubmit, watch } = useForm<DisclosuresData>({
     defaultValues: {
-      hadLunch: "",
-      lunchWasTasty: "",
+      hadBreakfast: "",
+      breakfastWasTasty: "",
     },
   });
-  const hadLunch = watch("hadLunch");
-  const lunchWasTasty = watch("lunchWasTasty");
+  const hadBreakfast = watch("hadBreakfast");
+  const breakfastWasTasty = watch("breakfastWasTasty");
 
   const onSubmit: SubmitHandler<DisclosuresData> = (data) => {
     let key: keyof DisclosuresData;
@@ -39,34 +39,44 @@ const DisclosuresStep: React.FC = () => {
       <Form onSubmit={handleSubmit(onSubmit)} className="maxw-full form-container">
         <div className="maxw-tablet">
           <FormProgressButtons />
-          <h2 className="font-heading-md">Lunch information</h2>
-          <p>Have you had lunch today?</p>
+          <h2 className="font-heading-md">Breakfast information</h2>
+          <p>Have you had breakfast today?</p>
           <Fieldset legend={<p className="font-ui-xs">Select one</p>} legendStyle="default">
             <Radio
-              id="hadLunchYes"
-              data-testid="hadLunchYes"
+              id="hadBreakfastYes"
+              data-testid="hadBreakfastYes"
               label="Yes"
               value="true"
-              {...register("hadLunch")}
+              {...register("hadBreakfast")}
             />
             <Radio
-              id="hadLunchNo"
-              data-testid="hadLunchNo"
+              id="hadBreakfastNo"
+              data-testid="hadBreakfastNo"
               label="No"
               value="false"
-              {...register("hadLunch")}
+              {...register("hadBreakfast")}
             />
           </Fieldset>
 
-          {hadLunch === "true" && (
+          {hadBreakfast === "true" && (
             <div className="padding-y-4">
-              <p>Was your lunch tasty?</p>
+              <p>Was your breakfast tasty?</p>
               <Fieldset legend={<p className="font-ui-xs">Select one</p>} legendStyle="default">
-                <Radio id="lunchYes" label="Yes" value="true" {...register("lunchWasTasty")} />
-                <Radio id="lunchNo" label="No" value="false" {...register("lunchWasTasty")} />
+                <Radio
+                  id="breakfastYes"
+                  label="Yes"
+                  value="true"
+                  {...register("breakfastWasTasty")}
+                />
+                <Radio
+                  id="breakfastNo"
+                  label="No"
+                  value="false"
+                  {...register("breakfastWasTasty")}
+                />
               </Fieldset>
-              {lunchWasTasty !== "" && (
-                <div className="padding-y-4">{lunchWasTasty === "true" ? "Yay!" : "Boo"}</div>
+              {breakfastWasTasty !== "" && (
+                <div className="padding-y-4">{breakfastWasTasty === "true" ? "Yay!" : "Boo"}</div>
               )}
             </div>
           )}

@@ -19,16 +19,16 @@ describe("<DisclosuresStep />", () => {
     );
   };
 
-  it("Only shows the tasty lunch question when the user has had lunch", async () => {
+  it("Only shows the tasty breakfast question when the user has had breakfast", async () => {
     const user = userEvent.setup();
     renderWithRouter();
 
-    expect(screen.queryByText("Was your lunch tasty?")).not.toBeInTheDocument();
+    expect(screen.queryByText("Was your breakfast tasty?")).not.toBeInTheDocument();
 
-    await user.click(screen.getByTestId("hadLunchNo"));
-    expect(screen.queryByText("Was your lunch tasty?")).not.toBeInTheDocument();
+    await user.click(screen.getByTestId("hadBreakfastNo"));
+    expect(screen.queryByText("Was your breakfast tasty?")).not.toBeInTheDocument();
 
-    await user.click(screen.getByTestId("hadLunchYes"));
-    expect(screen.queryByText("Was your lunch tasty?")).toBeInTheDocument();
+    await user.click(screen.getByTestId("hadBreakfastYes"));
+    expect(screen.queryByText("Was your breakfast tasty?")).toBeInTheDocument();
   });
 });
