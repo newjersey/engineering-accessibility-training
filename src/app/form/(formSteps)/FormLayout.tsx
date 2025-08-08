@@ -41,6 +41,7 @@ export const FormLayout = (props: { children?: React.ReactNode; pathname: string
               <li
                 key={sections.id}
                 className={`usa-step-indicator__segment ${liSegmentClassSuffix ? `usa-step-indicator__segment--${liSegmentClassSuffix}` : ""}`}
+                tabIndex={sectionIndex}
               >
                 <span className="usa-step-indicator__segment-label">
                   {sections.progressBarTitle}
