@@ -34,14 +34,14 @@ const juiceShopExplainerItems: AccordionItemProps[] = [
     headingLevel,
   },
   {
-    title: "What even is a relationship the juice shop?",
+    title: "What even is a relationship with the juice shop?",
     content: (
       <p>
         It&apos;s whatever you want it to be! This is a free form textbox that is also not required.
       </p>
     ),
     expanded: false,
-    id: "whatEvenIsARelationshipTheJuiceShop",
+    id: "whatEvenIsARelationshipWithTheJuiceShop",
     headingLevel,
   },
   {
