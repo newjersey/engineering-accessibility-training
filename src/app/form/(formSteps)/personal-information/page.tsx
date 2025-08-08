@@ -9,6 +9,7 @@ import {
   FormGroup,
   Label,
   Select,
+  Textarea,
   TextInput,
 } from "@trussworks/react-uswds";
 import { useRouter } from "next/navigation";
@@ -16,6 +17,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { type SubmitErrorHandler, type SubmitHandler, useForm } from "react-hook-form";
 
 export interface PersonalInformationData {
+  juiceShopRelationship: string | null;
   firstName: string | null;
   middleName: string | null;
   lastName: string | null;
@@ -25,6 +27,7 @@ export interface PersonalInformationData {
 }
 
 const orderedInputNameToLabel: { [key in keyof PersonalInformationData]: string } = {
+  juiceShopRelationship: "Juice shop relationship",
   firstName: "First name",
   middleName: "Middle name",
   lastName: "Last name",
@@ -45,6 +48,7 @@ const PersonalInformationStep: React.FC = () => {
     setFocus,
   } = useForm<PersonalInformationData>({
     defaultValues: {
+      juiceShopRelationship: "",
       firstName: "",
       middleName: "",
       lastName: "",
@@ -83,45 +87,63 @@ const PersonalInformationStep: React.FC = () => {
   return (
     <div>
       {dataHasLoaded && (
-        <Form
-          onSubmit={handleSubmit(onSubmit, onError)}
-          className="maxw-full form-container"
-          noValidate
-        >
           <FormProgressButtons />
+        <Form onSubmit={handleSubmit(onSubmit, onError)} className="maxw-full" noValidate>
           <div className="maxw-tablet">
-            <div tabIndex={-1} ref={errorSummaryRef}>
-              {shouldSummarizeErrors && Object.keys(errors).length >= 1 && (
-                <div
-                  className="usa-alert usa-alert--error margin-bottom-3 border-05 border-top-105 border-secondary-dark"
-                  aria-labelledby="error-summary-heading"
-                >
-                  <div className="usa-alert__body">
+            <div>
+              <div tabIndex={-1} ref={errorSummaryRef}>
+                {shouldSummarizeErrors && Object.keys(errors).length >= 1 && (
+                  <div
+                    className="usa-alert usa-alert--error margin-bottom-3 border-05 border-top-105 border-secondary-dark"
+                    aria-labelledby="error-summary-heading"
+                  >
+                    <div className="usa-alert__body">
                     <h3 className="usa-alert__heading" id="error-summary-heading">
-                      There is a problem
+                        There is a problem
                     </h3>
 
-                    <ul className="usa-list usa-list--unstyled">
-                      {Object.entries(errors).map(([field, error]) => {
-                        return (
-                          <li key={field}>
-                            <a
-                              href={`#${field}`}
-                              onClick={(e) => {
-                                e.preventDefault();
-                                setFocus(field as keyof PersonalInformationData);
-                              }}
-                            >
-                              {error.message}
-                            </a>
-                          </li>
-                        );
-                      })}
-                    </ul>
+                      <ul className="usa-list usa-list--unstyled">
+                        {Object.entries(errors).map(([field, error]) => {
+                          return (
+                            <li key={field}>
+                              <a
+                                href={`#${field}`}
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  setFocus(field as keyof PersonalInformationData);
+                                }}
+                              >
+                                {error.message}
+                              </a>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </div>
                   </div>
-                </div>
+                )}
+              </div>
+              <h2 className="font-heading-md">Personal relationships</h2>
+              <Label htmlFor="juiceShopRelationship">
+                {orderedInputNameToLabel["juiceShopRelationship"]}
+              </Label>
+              <span className="usa-hint" id="juiceShopRelationshipHint">
+                Describe your personal relationship with the juice shop.
+              </span>
+              <Textarea
+                id="juiceShopRelationship"
+                rows={2}
+                aria-describedby="juiceShopRelationshipHint"
+                {...register("juiceShopRelationship", {})}
+              />
+              {errors.juiceShopRelationship && (
+                <span id="juiceShopRelationshipErrorMessage" className="usa-error-message">
+                  {errors.juiceShopRelationship.message}
+                </span>
               )}
             </div>
+
+            <hr className="margin-top-5 margin-bottom-5" />
             <h2 className="font-heading-md">Personal identification</h2>
             <Fieldset legend="Name" legendStyle="srOnly" className="grid-row grid-gap">
               <div className="tablet:grid-col-4">
