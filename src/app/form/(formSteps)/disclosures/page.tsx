@@ -38,7 +38,6 @@ const DisclosuresStep: React.FC = () => {
     <div>
       <Form onSubmit={handleSubmit(onSubmit)} className="maxw-full form-container">
         <div className="maxw-tablet">
-          <FormProgressButtons />
           <h2 className="font-heading-md">Breakfast information</h2>
           <p>Have you had breakfast today?</p>
           <Fieldset legend={<p className="font-ui-xs">Select one</p>} legendStyle="default">
@@ -81,6 +80,8 @@ const DisclosuresStep: React.FC = () => {
             </div>
           )}
         </div>
+
+        <FormProgressButtons />
       </Form>
     </div>
   );
