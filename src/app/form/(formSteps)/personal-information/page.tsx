@@ -380,7 +380,6 @@ const PersonalInformationStep: React.FC = () => {
                     <TextInput
                       id="city"
                       type="text"
-                      autoComplete="shipping address-level2"
                       required
                       validationStatus={errors.city ? "error" : undefined}
                       aria-invalid={errors.city ? "true" : "false"}
@@ -401,13 +400,7 @@ const PersonalInformationStep: React.FC = () => {
                     <Label htmlFor="state" requiredMarker>
                       {orderedInputNameToLabel["state"]}
                     </Label>
-                    <Select
-                      className="usa-select"
-                      id="state"
-                      autoComplete="shipping address-level1"
-                      required
-                      {...register("state")}
-                    >
+                    <Select className="usa-select" id="state" required {...register("state")}>
                       {Object.keys(AddressState).map((state) => (
                         <option key={state} value={state}>
                           {state}
@@ -423,7 +416,6 @@ const PersonalInformationStep: React.FC = () => {
                       className="usa-input--medium"
                       id="zip"
                       type="text"
-                      autoComplete="shipping postal-code"
                       value={zip ?? ""}
                       mask="#####"
                       pattern="\d{5}"
