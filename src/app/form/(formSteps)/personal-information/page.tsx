@@ -3,6 +3,7 @@
 import JuiceShopExplainer from "@/app/form/(formSteps)/personal-information/JuiceShopExplainer";
 import FormProgressButtons from "@form/(formSteps)/components/FormProgressButtons";
 import { routeToNextStep, useFormProgressPosition } from "@form/_utils/formProgressRouting";
+import { AddressState } from "@form/_utils/inputFields/enums";
 import {
   DateInputGroup,
   Fieldset,
@@ -12,6 +13,7 @@ import {
   Select,
   Textarea,
   TextInput,
+  TextInputMask,
 } from "@trussworks/react-uswds";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
@@ -25,7 +27,11 @@ export interface PersonalInformationData {
   dateOfBirthMonth: string | null;
   dateOfBirthDay: string | null;
   dateOfBirthYear: string | null;
-  anythingElse: string | null;
+  streetAddress1: string | null;
+  streetAddress2: string | null;
+  city: string | null;
+  state: string | null;
+  zip: string | null;
 }
 
 const orderedInputNameToLabel: { [key in keyof PersonalInformationData]: string } = {
@@ -36,8 +42,13 @@ const orderedInputNameToLabel: { [key in keyof PersonalInformationData]: string 
   dateOfBirthMonth: "Month",
   dateOfBirthDay: "Day",
   dateOfBirthYear: "Year",
-  anythingElse: "Is there anything else you would like to share about yourself?",
+  streetAddress1: "Street address 1",
+  streetAddress2: "Street address line 2",
+  city: "City",
+  state: "State",
+  zip: "ZIP code",
 };
+const mailingAddressHeader = "Mailing address";
 
 const PersonalInformationStep: React.FC = () => {
   const router = useRouter();
@@ -49,6 +60,7 @@ const PersonalInformationStep: React.FC = () => {
     formState: { errors },
     handleSubmit,
     setFocus,
+    watch,
   } = useForm<PersonalInformationData>({
     defaultValues: {
       juiceShopRelationship: "",
@@ -62,6 +74,7 @@ const PersonalInformationStep: React.FC = () => {
     shouldFocusError: false,
   });
   const errorSummaryRef = useRef<HTMLInputElement>(null);
+  const zip = watch("zip");
 
   const onSubmit: SubmitHandler<PersonalInformationData> = () => {
     routeToNextStep(router, formProgressPosition);
@@ -152,6 +165,7 @@ const PersonalInformationStep: React.FC = () => {
                     data-testid="firstName"
                     type="text"
                     required
+                    autoComplete="given-name"
                     validationStatus={errors.firstName ? "error" : undefined}
                     aria-invalid={errors.firstName ? "true" : "false"}
                     aria-describedby={errors.firstName && "firstNameErrorMessage"}
@@ -174,6 +188,7 @@ const PersonalInformationStep: React.FC = () => {
                     aria-labelledby="middleName"
                     data-testid="middleName"
                     type="text"
+                    autoComplete="additional-name"
                     {...register("middleName")}
                   />
                 </div>
@@ -185,6 +200,7 @@ const PersonalInformationStep: React.FC = () => {
                     id="lastName"
                     data-testid="lastName"
                     type="text"
+                    autoComplete="family-name"
                     validationStatus={errors.lastName ? "error" : undefined}
                     aria-invalid={errors.lastName ? "true" : "false"}
                     aria-describedby={errors.lastName && "lastNameErrorMessage"}
@@ -210,6 +226,7 @@ const PersonalInformationStep: React.FC = () => {
                     <Select
                       id="dateOfBirthMonth"
                       required
+                      autoComplete="bday-month"
                       validationStatus={errors.dateOfBirthMonth ? "error" : undefined}
                       aria-invalid={errors.dateOfBirthMonth ? "true" : "false"}
                       {...register("dateOfBirthMonth", {
@@ -242,6 +259,7 @@ const PersonalInformationStep: React.FC = () => {
                       maxLength={2}
                       minLength={2}
                       required
+                      autoComplete="bday-month"
                       validationStatus={errors.dateOfBirthDay ? "error" : undefined}
                       {...register("dateOfBirthDay", {
                         required: `${orderedInputNameToLabel["dateOfBirthDay"]} is required`,
@@ -278,6 +296,7 @@ const PersonalInformationStep: React.FC = () => {
                       pattern="[0-9]*"
                       inputMode="numeric"
                       required
+                      autoComplete="bday-year"
                       validationStatus={errors.dateOfBirthYear ? "error" : undefined}
                       aria-describedby={errors.dateOfBirthYear && "dateOfBirthYearErrorMessage"}
                       {...register("dateOfBirthYear", {
@@ -315,13 +334,119 @@ const PersonalInformationStep: React.FC = () => {
                   </div>
                 )}
               </Fieldset>
-              <div className="margin-top-3">{orderedInputNameToLabel["anythingElse"]}</div>
-              <Textarea
-                id="anythingElse"
-                rows={2}
-                aria-label="anythingElse"
-                {...register("anythingElse")}
-              />
+              <hr className="margin-top-5 margin-bottom-5" />
+              <h2 className="font-heading-md">{mailingAddressHeader}</h2>
+              <Fieldset legend={mailingAddressHeader} legendStyle="srOnly">
+                <div className="grid-row grid-gap">
+                  <div className="mobile-lg:grid-col-6">
+                    <Label htmlFor="streetAddress1" requiredMarker>
+                      {orderedInputNameToLabel["streetAddress1"]}
+                    </Label>
+                    <TextInput
+                      id="streetAddress1"
+                      type="text"
+                      autoComplete="shipping address-line1"
+                      required
+                      validationStatus={errors.streetAddress1 ? "error" : undefined}
+                      aria-invalid={errors.streetAddress1 ? "true" : "false"}
+                      aria-describedby={errors.streetAddress1 && "streetAddress1ErrorMessage"}
+                      {...register("streetAddress1", {
+                        required: `${orderedInputNameToLabel["streetAddress1"]} is required`,
+                      })}
+                    />
+                    {errors.streetAddress1 && (
+                      <span id="streetAddress1ErrorMessage" className="usa-error-message">
+                        {errors.streetAddress1.message}
+                      </span>
+                    )}
+                  </div>
+                  <div className="mobile-lg:grid-col-6">
+                    <Label htmlFor="streetAddress2">
+                      {orderedInputNameToLabel["streetAddress2"]}
+                    </Label>
+                    <TextInput
+                      id="streetAddress2"
+                      type="text"
+                      autoComplete="shipping address-line2"
+                      {...register("streetAddress2")}
+                    />
+                  </div>
+                </div>
+                <div className="grid-row grid-gap">
+                  <div className="mobile-lg:grid-col-6">
+                    <Label htmlFor="city" requiredMarker>
+                      {orderedInputNameToLabel["city"]}
+                    </Label>
+                    <TextInput
+                      id="city"
+                      type="text"
+                      autoComplete="shipping address-level2"
+                      required
+                      validationStatus={errors.city ? "error" : undefined}
+                      aria-invalid={errors.city ? "true" : "false"}
+                      aria-describedby={errors.city && "cityErrorMessage"}
+                      {...register("city", {
+                        required: `${orderedInputNameToLabel["city"]} is required`,
+                      })}
+                    />
+                    {errors.city && (
+                      <span id="cityErrorMessage" className="usa-error-message">
+                        {errors.city.message}
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <div className="grid-row grid-gap">
+                  <div className="mobile-lg:grid-col-6">
+                    <Label htmlFor="state" requiredMarker>
+                      {orderedInputNameToLabel["state"]}
+                    </Label>
+                    <Select
+                      className="usa-select"
+                      id="state"
+                      autoComplete="shipping address-level1"
+                      required
+                      {...register("state")}
+                    >
+                      {Object.keys(AddressState).map((state) => (
+                        <option key={state} value={state}>
+                          {state}
+                        </option>
+                      ))}
+                    </Select>
+                  </div>
+                  <div className="mobile-lg:grid-col-4">
+                    <Label htmlFor="zip" requiredMarker>
+                      {orderedInputNameToLabel["zip"]}
+                    </Label>
+                    <TextInputMask
+                      className="usa-input--medium"
+                      id="zip"
+                      type="text"
+                      autoComplete="shipping postal-code"
+                      value={zip ?? ""}
+                      mask="#####"
+                      pattern="\d{5}"
+                      required
+                      validationStatus={errors.zip ? "error" : undefined}
+                      aria-invalid={errors.zip ? "true" : "false"}
+                      aria-describedby={errors.zip && "zipErrorMessage"}
+                      {...register("zip", {
+                        required: `${orderedInputNameToLabel["zip"]} is required`,
+                        minLength: {
+                          value: 5,
+                          message: `${orderedInputNameToLabel["zip"]} must have five digits`,
+                        },
+                      })}
+                    />
+                    {errors.zip && (
+                      <span id="zipErrorMessage" className="usa-error-message">
+                        {errors.zip.message}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </Fieldset>
             </div>
             <div className="flex-1">
               <JuiceShopExplainer />
