@@ -6,7 +6,7 @@ import { Form } from "@trussworks/react-uswds";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { LoadingSpinner } from "../components/LoadingSpinner";
+import LoadingSpinner from "@/app/form/(formSteps)/components/LoadingSpinner";
 import { getValue } from "@form/_utils/sessionStorage";
 
 const FormStep: React.FC = () => {
