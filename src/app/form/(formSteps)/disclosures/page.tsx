@@ -36,31 +36,16 @@ const DisclosuresStep: React.FC = () => {
 
   return (
     <div>
-      <Form onSubmit={handleSubmit(onSubmit)} className="maxw-full form-container">
+      <Form onSubmit={handleSubmit(onSubmit)} className="maxw-full">
         <div className="maxw-tablet">
           <h2 className="font-heading-md">Breakfast information</h2>
-          <p>Have you had breakfast today?</p>
-          <Fieldset legend={<p className="font-ui-xs">Select one</p>} legendStyle="default">
-            <Radio
-              id="hadBreakfastYes"
-              data-testid="hadBreakfastYes"
-              label="Yes"
-              value="true"
-              {...register("hadBreakfast")}
-            />
-            <Radio
-              id="hadBreakfastNo"
-              data-testid="hadBreakfastNo"
-              label="No"
-              value="false"
-              {...register("hadBreakfast")}
-            />
+          <Fieldset legend="Have you had breakfast today?" legendStyle="default">
+            <Radio id="hadBreakfastYes" label="Yes" value="true" {...register("hadBreakfast")} />
+            <Radio id="hadBreakfastNo" label="No" value="false" {...register("hadBreakfast")} />
           </Fieldset>
-
           {hadBreakfast === "true" && (
             <div className="padding-y-4">
-              <p>Was your breakfast tasty?</p>
-              <Fieldset legend={<p className="font-ui-xs">Select one</p>} legendStyle="default">
+              <Fieldset legend="Was your breakfast tasty?" legendStyle="default">
                 <Radio
                   id="breakfastYes"
                   label="Yes"
@@ -80,7 +65,6 @@ const DisclosuresStep: React.FC = () => {
             </div>
           )}
         </div>
-
         <FormProgressButtons />
       </Form>
     </div>
