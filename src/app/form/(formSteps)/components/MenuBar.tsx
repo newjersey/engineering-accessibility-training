@@ -25,12 +25,40 @@ const MenuBar: React.FC = () => {
   const [expanded, setExpanded] = useState(false);
   const onClick = (): void => setExpanded((prvExpanded) => !prvExpanded);
   const testItemsMegaOne = [
-    [<a key="one">Simple link one</a>, <a key="two">Simple link two</a>],
-    [<a key="three">Simple link three</a>, <a key="four">Simple link four</a>],
+    [
+      <a href="https://nj.gov/#one" key="one">
+        Fake link one
+      </a>,
+      <a href="https://nj.gov/#two" key="two">
+        Fake link two
+      </a>,
+    ],
+    [
+      <a href="https://nj.gov/#three" key="three">
+        Fake link three
+      </a>,
+      <a href="https://nj.gov/#four" key="four">
+        Fake link four
+      </a>,
+    ],
   ];
   const testItemsMegaTwo = [
-    [<a key="one">Simple link five</a>, <a key="two">Simple link six</a>],
-    [<a key="three">Simple link seven</a>, <a key="four">Simple link eight</a>],
+    [
+      <a href="https://nj.gov/#one" key="one">
+        Fake link five
+      </a>,
+      <a href="https://nj.gov/#two" key="two">
+        Fake link six
+      </a>,
+    ],
+    [
+      <a href="https://nj.gov/#three" key="three">
+        Fake link seven
+      </a>,
+      <a href="https://nj.gov/#four" key="four">
+        Fake link eight
+      </a>,
+    ],
   ];
   const [isOpen, setIsOpen] = useState([false, false]);
   const testItemsMegaMenu = [
@@ -57,13 +85,13 @@ const MenuBar: React.FC = () => {
       />
       <MegaMenu key="two" items={testItemsMegaTwo} isOpen={isOpen[1]} id="testDropDownTwo" />
     </>,
-    <a key="three" className="usa-nav__link">
+    <a href="https://nj.gov/#three" key="three" className="usa-nav__link">
       <span>Placeholder 3</span>
     </a>,
-    <a key="four" className="usa-nav__link">
+    <a href="https://nj.gov/#four" key="four" className="usa-nav__link">
       <span>Placeholder 4</span>
     </a>,
-    <a key="five" className="usa-nav__link">
+    <a href="https://nj.gov/#five" key="five" className="usa-nav__link">
       <span>Placeholder 5</span>
     </a>,
   ];

@@ -1,5 +1,6 @@
 "use client";
 
+import AddressExplainer from "@/app/form/(formSteps)/personal-information/AddressExplainer";
 import JuiceShopExplainer from "@/app/form/(formSteps)/personal-information/JuiceShopExplainer";
 import FormProgressButtons from "@form/(formSteps)/components/FormProgressButtons";
 import { routeToNextStep, useFormProgressPosition } from "@form/_utils/formProgressRouting";
@@ -20,7 +21,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { type SubmitErrorHandler, type SubmitHandler, useForm } from "react-hook-form";
 
 export interface PersonalInformationData {
-  juiceShopRelationship: string | null;
+  juiceShopExperience: string | null;
   firstName: string | null;
   middleName: string | null;
   lastName: string | null;
@@ -35,7 +36,7 @@ export interface PersonalInformationData {
 }
 
 const orderedInputNameToLabel: { [key in keyof PersonalInformationData]: string } = {
-  juiceShopRelationship: "Juice shop relationship",
+  juiceShopExperience: "Juice shop experience",
   firstName: "First name",
   middleName: "Middle name",
   lastName: "Last name",
@@ -63,7 +64,7 @@ const PersonalInformationStep: React.FC = () => {
     watch,
   } = useForm<PersonalInformationData>({
     defaultValues: {
-      juiceShopRelationship: "",
+      juiceShopExperience: "",
       firstName: "",
       middleName: "",
       lastName: "",
@@ -138,19 +139,19 @@ const PersonalInformationStep: React.FC = () => {
                   </div>
                 )}
               </div>
-              <h2 className="font-heading-md">Personal relationships</h2>
-              <div id="juiceShopRelationship" className="margin-top-3">
-                {orderedInputNameToLabel["juiceShopRelationship"]}
+              <h2 className="font-heading-md">Shop experiences</h2>
+              <div id="juiceShopExperience" className="margin-top-3">
+                {orderedInputNameToLabel["juiceShopExperience"]}
               </div>
-              <span className="usa-hint" id="juiceShopRelationshipHint">
-                Describe your personal relationship with the juice shop.
+              <span className="usa-hint" id="juiceShopExperienceHint">
+                Describe your personal experience with the juice shop.
               </span>
               <Textarea
-                id="juiceShopRelationship"
+                id="juiceShopExperience"
                 rows={2}
                 aria-label="Juice shop"
-                aria-describedby="juiceShopRelationshipHint"
-                {...register("juiceShopRelationship")}
+                aria-describedby="juiceShopExperienceHint"
+                {...register("juiceShopExperience")}
               />
 
               <hr className="margin-top-5 margin-bottom-5" />
@@ -441,7 +442,14 @@ const PersonalInformationStep: React.FC = () => {
               </Fieldset>
             </div>
             <div className="flex-1">
-              <JuiceShopExplainer />
+              <div>
+                <h3 className="font-heading-md">FAQ</h3>
+                <JuiceShopExplainer headingLevel="h4" />
+              </div>
+              <div className="margin-top-lg">
+                <h3 className="font-heading-md">FAQ</h3>
+                <AddressExplainer headingLevel="h4" />
+              </div>
             </div>
           </div>
           <FormProgressButtons />
