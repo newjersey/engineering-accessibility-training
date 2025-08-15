@@ -3,6 +3,7 @@ import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { type AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import DisclosuresStep from "./page";
+import { axe } from "jest-axe";
 
 describe("<DisclosuresStep />", () => {
   const renderWithRouter = () => {
@@ -12,7 +13,7 @@ describe("<DisclosuresStep />", () => {
       push: mockPush,
       refresh: mockRefresh,
     };
-    render(
+    return render(
       <RouterPathnameProvider pathname="/form/disclosures" router={router as AppRouterInstance}>
         <DisclosuresStep />
       </RouterPathnameProvider>,
@@ -39,4 +40,10 @@ describe("<DisclosuresStep />", () => {
     await user.click(within(hadBreakfastQuestion).getByRole("radio", { name: "Yes" }));
     expect(screen.getByRole("group", { name: "Was your breakfast tasty?" })).toBeInTheDocument();
   });
+
+  it('does not have axe violations', async () => {
+    const { container } = renderWithRouter();
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
+  })
 });
