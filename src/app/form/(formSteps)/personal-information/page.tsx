@@ -111,8 +111,8 @@ const PersonalInformationStep: React.FC = () => {
     <div>
       {dataHasLoaded && (
         <Form onSubmit={handleSubmit(onSubmit, onError)} className="maxw-full" noValidate>
-          <div className="grid-row grid-gap-lg">
-            <div className="flex-2">
+          <div className="form-grid">
+            <div>
               <div tabIndex={-1} ref={errorSummaryRef}>
                 {shouldSummarizeErrors && Object.keys(errors).length >= 1 && (
                   <div
@@ -120,9 +120,9 @@ const PersonalInformationStep: React.FC = () => {
                     aria-labelledby="error-summary-heading"
                   >
                     <div className="usa-alert__body">
-                      <h3 className="usa-alert__heading" id="error-summary-heading">
+                      <h2 className="usa-alert__heading" id="error-summary-heading">
                         There is a problem
-                      </h3>
+                      </h2>
 
                       <ul className="usa-list usa-list--unstyled">
                         {Object.entries(errors).map(([field, error]) => {
@@ -146,20 +146,30 @@ const PersonalInformationStep: React.FC = () => {
                 )}
               </div>
               <h2 className="font-heading-md">Shop experiences</h2>
-              <div id="juiceShopExperience" className="margin-top-3">
+              <Label htmlFor="juiceShopExperience">
                 {orderedInputNameToLabel["juiceShopExperience"]}
-              </div>
+              </Label>
               <span className="usa-hint" id="juiceShopExperienceHint">
                 Describe your personal experience with the juice shop.
               </span>
               <Textarea
                 id="juiceShopExperience"
                 rows={2}
-                aria-label="Juice shop"
                 aria-describedby="juiceShopExperienceHint"
                 {...register("juiceShopExperience")}
               />
+              {errors.juiceShopExperience && (
+                <span id="juiceShopExperienceErrorMessage" className="usa-error-message">
+                  {errors.juiceShopExperience.message}
+                </span>
+              )}
+            </div>
 
+            <div>
+              <h3 className="font-heading-md">FAQ</h3>
+              <JuiceShopExplainer headingLevel="h4" />
+            </div>
+            <div>
               <hr className="margin-top-5 margin-bottom-5" />
               <h2 className="font-heading-md">Personal identification</h2>
               <Fieldset legend="Name" legendStyle="srOnly" className="grid-row grid-gap">
@@ -169,7 +179,6 @@ const PersonalInformationStep: React.FC = () => {
                   </Label>
                   <TextInput
                     id="firstName"
-                    data-testid="firstName"
                     type="text"
                     required
                     autoComplete="given-name"
@@ -187,13 +196,9 @@ const PersonalInformationStep: React.FC = () => {
                   )}
                 </div>
                 <div className="tablet:grid-col-4">
-                  <div id="middleName" className="margin-top-3">
-                    {orderedInputNameToLabel["middleName"]}
-                  </div>
+                  <Label htmlFor="middleName">{orderedInputNameToLabel["middleName"]}</Label>
                   <TextInput
                     id="middleName"
-                    aria-labelledby="middleName"
-                    data-testid="middleName"
                     type="text"
                     autoComplete="additional-name"
                     {...register("middleName")}
@@ -205,8 +210,8 @@ const PersonalInformationStep: React.FC = () => {
                   </Label>
                   <TextInput
                     id="lastName"
-                    data-testid="lastName"
                     type="text"
+                    required
                     autoComplete="family-name"
                     validationStatus={errors.lastName ? "error" : undefined}
                     aria-invalid={errors.lastName ? "true" : "false"}
@@ -224,8 +229,10 @@ const PersonalInformationStep: React.FC = () => {
               </Fieldset>
 
               <Fieldset legend="Date of birth" className="margin-top-3" requiredMarker>
-                <span className="usa-hint">For example: April 28 1986</span>
-                <DateInputGroup>
+                <span className="usa-hint" id="dateOfBirthHint">
+                  For example: April 28 1986
+                </span>
+                <DateInputGroup aria-describedby="dateOfBirthHint">
                   <FormGroup className="usa-form-group--month usa-form-group--select">
                     <Label htmlFor="dateOfBirthMonth" requiredMarker>
                       {orderedInputNameToLabel["dateOfBirthMonth"]}
@@ -236,6 +243,7 @@ const PersonalInformationStep: React.FC = () => {
                       autoComplete="bday-month"
                       validationStatus={errors.dateOfBirthMonth ? "error" : undefined}
                       aria-invalid={errors.dateOfBirthMonth ? "true" : "false"}
+                      aria-describedby={errors.dateOfBirthMonth && "dateOfBirthMonthErrorMessage"}
                       {...register("dateOfBirthMonth", {
                         required: `${orderedInputNameToLabel["dateOfBirthMonth"]} is required`,
                       })}
@@ -255,7 +263,7 @@ const PersonalInformationStep: React.FC = () => {
                     </Select>
                   </FormGroup>
                   <FormGroup className="usa-form-group--day">
-                    <Label htmlFor={"dateOfBrthDay"} requiredMarker>
+                    <Label htmlFor={"dateOfBirthDay"} requiredMarker>
                       {orderedInputNameToLabel["dateOfBirthDay"]}
                     </Label>
                     <TextInput
@@ -268,6 +276,8 @@ const PersonalInformationStep: React.FC = () => {
                       required
                       autoComplete="bday-month"
                       validationStatus={errors.dateOfBirthDay ? "error" : undefined}
+                      aria-invalid={errors.dateOfBirthDay ? "true" : "false"}
+                      aria-describedby={errors.dateOfBirthDay && "dateOfBirthDayErrorMessage"}
                       {...register("dateOfBirthDay", {
                         required: `${orderedInputNameToLabel["dateOfBirthDay"]} is required`,
                         valueAsNumber: true,
@@ -305,6 +315,7 @@ const PersonalInformationStep: React.FC = () => {
                       required
                       autoComplete="bday-year"
                       validationStatus={errors.dateOfBirthYear ? "error" : undefined}
+                      aria-invalid={errors.dateOfBirthYear ? "true" : "false"}
                       aria-describedby={errors.dateOfBirthYear && "dateOfBirthYearErrorMessage"}
                       {...register("dateOfBirthYear", {
                         required: `${orderedInputNameToLabel["dateOfBirthYear"]} is required`,
@@ -341,6 +352,9 @@ const PersonalInformationStep: React.FC = () => {
                   </div>
                 )}
               </Fieldset>
+            </div>
+            <div></div>
+            <div>
               <hr className="margin-top-5 margin-bottom-5" />
               <h2 className="font-heading-md">{mailingAddressHeader}</h2>
               <Fieldset legend={mailingAddressHeader} legendStyle="srOnly">
@@ -352,6 +366,7 @@ const PersonalInformationStep: React.FC = () => {
                     <TextInput
                       id="streetAddress1"
                       type="text"
+                      autoComplete="shipping address-line1"
                       required
                       validationStatus={errors.streetAddress1 ? "error" : undefined}
                       aria-invalid={errors.streetAddress1 ? "true" : "false"}
@@ -370,7 +385,12 @@ const PersonalInformationStep: React.FC = () => {
                     <Label htmlFor="streetAddress2">
                       {orderedInputNameToLabel["streetAddress2"]}
                     </Label>
-                    <TextInput id="streetAddress2" type="text" {...register("streetAddress2")} />
+                    <TextInput
+                      id="streetAddress2"
+                      type="text"
+                      autoComplete="shipping address-line2"
+                      {...register("streetAddress2")}
+                    />
                   </div>
                 </div>
                 <div className="grid-row grid-gap">
@@ -381,6 +401,7 @@ const PersonalInformationStep: React.FC = () => {
                     <TextInput
                       id="city"
                       type="text"
+                      autoComplete="shipping address-level2"
                       required
                       validationStatus={errors.city ? "error" : undefined}
                       aria-invalid={errors.city ? "true" : "false"}
@@ -401,7 +422,13 @@ const PersonalInformationStep: React.FC = () => {
                     <Label htmlFor="state" requiredMarker>
                       {orderedInputNameToLabel["state"]}
                     </Label>
-                    <Select className="usa-select" id="state" required {...register("state")}>
+                    <Select
+                      className="usa-select"
+                      id="state"
+                      autoComplete="shipping address-level1"
+                      required
+                      {...register("state")}
+                    >
                       {Object.keys(AddressState).map((state) => (
                         <option key={state} value={state}>
                           {state}
@@ -417,6 +444,7 @@ const PersonalInformationStep: React.FC = () => {
                       className="usa-input--medium"
                       id="zip"
                       type="text"
+                      autoComplete="shipping postal-code"
                       value={zip ?? ""}
                       mask="#####"
                       pattern="\d{5}"
@@ -441,15 +469,9 @@ const PersonalInformationStep: React.FC = () => {
                 </div>
               </Fieldset>
             </div>
-            <div className="flex-1">
-              <div>
-                <h3 className="font-heading-md">FAQ</h3>
-                <JuiceShopExplainer headingLevel="h4" />
-              </div>
-              <div className="margin-top-lg">
-                <h3 className="font-heading-md">FAQ</h3>
-                <AddressExplainer headingLevel="h4" />
-              </div>
+            <div className="margin-top-8">
+              <h3 className="font-heading-md">FAQ</h3>
+              <AddressExplainer headingLevel="h4" />
             </div>
           </div>
           <FormProgressButtons />

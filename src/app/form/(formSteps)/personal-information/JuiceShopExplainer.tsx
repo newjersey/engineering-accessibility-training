@@ -7,13 +7,12 @@ const JuiceShopExplainer = (props: { headingLevel: HeadingLevel }) => {
       title: "What is the juice shop?",
       content: (
         <p>
-          The OWASP Juice Shop is a deliberately insecure web application that can be used in
-          security trainings, awareness demos, CTFs and as a guinea pig for security tools. You can
-          find out more{" "}
+          The{" "}
           <a href="https://owasp.org/www-project-juice-shop/" target="_blank">
-            here
-          </a>
-          .
+            OWASP Juice Shop
+          </a>{" "}
+          is a deliberately insecure web application that can be used in security trainings,
+          awareness demos, CTFs and as a guinea pig for security tools.
         </p>
       ),
       expanded: false,
