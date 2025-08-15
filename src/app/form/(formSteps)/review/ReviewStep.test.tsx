@@ -1,9 +1,8 @@
 import { RouterPathnameProvider } from "@/app/form/_utils/testUtils";
-import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import { render } from "@testing-library/react";
 import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import PersonalInformationStep from "./page";
 import { axe } from "jest-axe";
+import ReviewStep from "./page";
 
 describe("<PersonalInformationStep />", () => {
   afterEach(() => {
@@ -19,26 +18,13 @@ describe("<PersonalInformationStep />", () => {
     };
     return render(
       <RouterPathnameProvider
-        pathname="/form/personal-information"
+        pathname="/form/review"
         router={mockRouter as AppRouterInstance}
       >
-        <PersonalInformationStep />
+        <ReviewStep />
       </RouterPathnameProvider>,
     );
   };
-
-  it.each([
-    { name: "firstName", testValue: "Test first name" },
-    { name: "middleName", testValue: "Test middle name" },
-    { name: "lastName", testValue: "Test last name" },
-  ])("updates the $name text input", async ({ name, testValue }) => {
-    const user = userEvent.setup();
-    renderWithRouter();
-    const inputField = screen.getByTestId(name);
-    await user.type(inputField, testValue);
-
-    expect(inputField).toHaveValue(testValue);
-  });
 
   it('does not have axe violations', async () => {
     const { container } = renderWithRouter();
