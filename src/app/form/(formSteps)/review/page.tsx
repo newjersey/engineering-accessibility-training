@@ -29,48 +29,21 @@ const ReviewStep: React.FC = () => {
           })}
           className="maxw-full"
         >
-          <div className="maxw-tablet" lang="cs">
-            <h2 role="figure">Personal information</h2>
-            <label htmlFor="input" aria-checked>
-              First name
-            </label>
-            <div style={{ marginLeft: "40px" }}>{getValue("firstName")}</div>
-            <dt>Last name</dt>
-            <div style={{ marginLeft: "40px" }}>{getValue("lastName")}</div>
+          <div className="maxw-tablet">
+            <h2>Personal information</h2>
+            <dl>
+              <dt>First name</dt>
+              <dd>{getValue("firstName")}</dd>
+              <dt>Last name</dt>
+              <dd>{getValue("lastName")}</dd>
+            </dl>
             <h2>Disclosures</h2>
-            <div>
+            <dl>
               <dt>Had breakfast</dt>
               <dd>{getValue("hadBreakfast")}</dd>
-              <input
-                id="input"
-                aria-describedby="help"
-                placeholder="Breakfast tastiness"
-                disabled
-                className="font-body text-ink"
-                style={{
-                  padding: 0,
-                  margin: 0,
-                  width: "100%",
-                  outline: "none",
-                  border: "none",
-                  backgroundColor: "white",
-                }}
-              />
+              <dt>Breakfast tastiness</dt>
               <dd>{getValue("breakfastWasTasty")}</dd>
-            </div>
-            <span className="usa-sr-only" id="help" aria-activedescendant="input">
-              LOOK AT MEEEEEE I'M HELPING
-            </span>
-            <h1 className="usa-sr-only" role="directory">
-              Aria labels, roles, semantic elements, and sr-only text are not inherently clarifying.{" "}
-              <footer role="button">
-                It's possible to make a page confusing by incorrectly applying them!
-              </footer>{" "}
-              <dt>
-                There&apos;s no need to add excess content for assistive tech users. The goal is to
-                convey the same information to everyone.
-              </dt>
-            </h1>
+            </dl>
             <FormProgressButtons />
           </div>
         </Form>

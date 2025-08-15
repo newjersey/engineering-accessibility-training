@@ -1,9 +1,9 @@
+import DisclosuresStep from "@/app/form/(formSteps)/disclosures/page";
 import { RouterPathnameProvider } from "@/app/form/_utils/testUtils";
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { axe } from "jest-axe";
 import { type AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import DisclosuresStep from "./page";
 
 describe("<DisclosuresStep />", () => {
   const renderWithRouter = () => {
@@ -24,13 +24,21 @@ describe("<DisclosuresStep />", () => {
     const user = userEvent.setup();
     renderWithRouter();
 
-    expect(screen.queryByText("Was your breakfast tasty?")).not.toBeInTheDocument();
+    const hadBreakfastQuestion = screen.getByRole("group", {
+      name: "Have you had breakfast today?",
+    });
 
-    await user.click(screen.getByTestId("hadBreakfastNo"));
-    expect(screen.queryByText("Was your breakfast tasty?")).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("group", { name: "Was your breakfast tasty?" }),
+    ).not.toBeInTheDocument();
 
-    await user.click(screen.getByTestId("hadBreakfastYes"));
-    expect(screen.getByText("Was your breakfast tasty?")).toBeInTheDocument();
+    await user.click(within(hadBreakfastQuestion).getByRole("radio", { name: "No" }));
+    expect(
+      screen.queryByRole("group", { name: "Was your breakfast tasty?" }),
+    ).not.toBeInTheDocument();
+
+    await user.click(within(hadBreakfastQuestion).getByRole("radio", { name: "Yes" }));
+    expect(screen.getByRole("group", { name: "Was your breakfast tasty?" })).toBeInTheDocument();
   });
 
   it("does not have axe violations", async () => {
