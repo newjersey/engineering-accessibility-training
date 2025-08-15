@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form";
 import LoadingSpinner from "@/app/form/(formSteps)/components/LoadingSpinner";
 import { getValue } from "@form/_utils/sessionStorage";
 
-const FormStep: React.FC = () => {
+const ReviewStep: React.FC = () => {
   const router = useRouter();
   const formProgressPosition = useFormProgressPosition();
   const { handleSubmit } = useForm<object>({
@@ -52,4 +52,4 @@ const FormStep: React.FC = () => {
   );
 };
 
-export default FormStep;
+export default ReviewStep;
