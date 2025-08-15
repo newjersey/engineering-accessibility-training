@@ -346,7 +346,6 @@ const PersonalInformationStep: React.FC = () => {
                     <TextInput
                       id="streetAddress1"
                       type="text"
-                      autoComplete="shipping address-line1"
                       required
                       validationStatus={errors.streetAddress1 ? "error" : undefined}
                       aria-invalid={errors.streetAddress1 ? "true" : "false"}
@@ -365,12 +364,7 @@ const PersonalInformationStep: React.FC = () => {
                     <Label htmlFor="streetAddress2">
                       {orderedInputNameToLabel["streetAddress2"]}
                     </Label>
-                    <TextInput
-                      id="streetAddress2"
-                      type="text"
-                      autoComplete="shipping address-line2"
-                      {...register("streetAddress2")}
-                    />
+                    <TextInput id="streetAddress2" type="text" {...register("streetAddress2")} />
                   </div>
                 </div>
                 <div className="grid-row grid-gap">
