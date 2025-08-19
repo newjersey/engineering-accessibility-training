@@ -28,13 +28,16 @@ describe("<PersonalInformationStep />", () => {
   };
 
   it.each([
-    { name: "firstName", testValue: "Test first name" },
-    { name: "middleName", testValue: "Test middle name" },
-    { name: "lastName", testValue: "Test last name" },
+    { name: "First name *", testValue: "Test first name" },
+    { name: "Middle name", testValue: "Test middle name" },
+    { name: "Last name *", testValue: "Test last name" },
   ])("updates the $name text input", async ({ name, testValue }) => {
     const user = userEvent.setup();
     renderWithRouter();
-    const inputField = screen.getByTestId(name);
+    const inputField = screen.getByRole("textbox", {
+      name: name,
+    });
+
     await user.type(inputField, testValue);
 
     expect(inputField).toHaveValue(testValue);
