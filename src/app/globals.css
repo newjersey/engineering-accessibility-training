@@ -1,0 +1,38 @@
+* {
+  outline: none !important;
+}
+
+svg[role="img"].nj-banner__mail-icon {
+  height: 14px;
+  width: 14px;
+}
+
+img.nj-banner__header-seal {
+  box-sizing: unset;
+}
+
+abbr[title] {
+  text-decoration: none;
+}
+
+.usa-form .usa-button.margin-top-0 {
+  margin-top: 0;
+}
+
+@media (min-width: 1024px) {
+  .form-grid {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+@media (min-width: 482px) {
+  .margin-top-lg {
+    margin-top: 465px;
+  }
+}
+
+#input::placeholder {
+  color: inherit;
+}
