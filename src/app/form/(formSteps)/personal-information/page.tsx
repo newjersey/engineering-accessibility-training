@@ -254,7 +254,7 @@ const PersonalInformationStep: React.FC = () => {
                     </Select>
                   </FormGroup>
                   <FormGroup className="usa-form-group--day">
-                    <Label htmlFor={"dateOfBrthDay"} requiredMarker>
+                    <Label htmlFor={"dateOfBirthDay"} requiredMarker>
                       {orderedInputNameToLabel["dateOfBirthDay"]}
                     </Label>
                     <TextInput

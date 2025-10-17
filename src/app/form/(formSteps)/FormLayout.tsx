@@ -13,7 +13,7 @@ export const FormLayout = (props: { children?: React.ReactNode; pathname: string
   return (
     <>
       <div className="usa-step-indicator" aria-label="progress">
-        <div className="usa-step-indicator__segments">
+        <ol className="usa-step-indicator__segments">
           {allSections.map((sections, sectionIndex) => {
             let completionState: CompletionState;
             switch (true) {
@@ -41,7 +41,6 @@ export const FormLayout = (props: { children?: React.ReactNode; pathname: string
               <li
                 key={sections.id}
                 className={`usa-step-indicator__segment ${liSegmentClassSuffix ? `usa-step-indicator__segment--${liSegmentClassSuffix}` : ""}`}
-                tabIndex={sectionIndex}
               >
                 <span className="usa-step-indicator__segment-label">
                   {sections.progressBarTitle}
@@ -49,7 +48,7 @@ export const FormLayout = (props: { children?: React.ReactNode; pathname: string
               </li>
             );
           })}
-        </div>
+        </ol>
       </div>
 
       <div className="display-flex flex-justify">
